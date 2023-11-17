@@ -1,4 +1,3 @@
-from typing import Any
 import numpy as np
 
 class Linear:
@@ -16,6 +15,8 @@ class Linear:
             -xavier_std, xavier_std, (1 + in_features, out_features)
         )
         self.dW = np.zeros((1 + in_features, out_features))
+
+        self.momentum_W = np.zeros((1 + in_features, out_features))
     
     def __call__(self, X: np.ndarray):
         return self.forward(X)
@@ -44,4 +45,11 @@ class Linear:
         self.dX_ = np.matmul(delta, self.W.T)
         self.dX = self.dX_[..., 1:]
         return self.dX
+    
+    def step(self, lr: float, momentum: float = 0.0):
+        self.momentum_W = momentum * self.momentum_W + lr * self.dW
+        self.W -= self.momentum_W
+    
+    def zero_grad(self):
+        self.dW.fill(0.0)
     

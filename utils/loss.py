@@ -37,7 +37,7 @@ class MSELoss(Criterion):
         Return:
             out (np.array): ()
         """
-        assert y_.shape == y.shape, "Inputs shape not matching!"
+        assert y_.shape == y.shape, f"Inputs shape not matching! {y_.shape}, {y.shape}"
         self.y_ = y_
         self.y = y
         self.total_size = np.prod(y.shape)
