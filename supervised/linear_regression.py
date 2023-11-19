@@ -8,7 +8,7 @@ from utils.loss import MSELoss
 
 class LinearRegression:
     """
-    Linear Regression Model
+    Linear Regression training and scoring Interface
     """
     
     def __init__(self, lr: float = 0.1, momentum: float = 0.0, 
@@ -41,4 +41,6 @@ class LinearRegression:
             self.linear.zero_grad()
     
     def forward(self, X: np.ndarray):
+        if not hasattr(self, "linear"):
+            raise ValueError("Train the linear regression model first!")
         return self.linear(X)

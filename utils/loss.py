@@ -24,7 +24,7 @@ class Criterion(object):
 
 class MSELoss(Criterion):
     """
-    MSE Loss = (y_ - y) ^ 2
+    Mean Square Error Loss = (y_ - y) ^ 2
     """
     def __init__(self):
         super(MSELoss, self).__init__()
@@ -51,4 +51,34 @@ class MSELoss(Criterion):
             out (np.array): (batch size, ...)
         """
         return 2 * (self.y_ - self.y) / self.total_size
+
+class BCELoss(Criterion):
+    """
+    Binary Cross Entropy Loss = - [y * log(y_) + (1 - y) * log(1 - y_)]
+    """
+    def __init__(self):
+        super(BCELoss, self).__init__()
+    
+    def forward(self, y_: np.ndarray, y: np.ndarray):
+        """
+        Argument:
+            y_ (np.array): (batch size, )
+            y (np.array): (batch size, )
+        Return:
+            out (np.array): ()
+        """
+        assert y_.shape == y.shape, f"Inputs shape not matching! {y_.shape}, {y.shape}"
+        self.y_ = y_
+        self.y = y
+        self.total_size = np.prod(y.shape)
+        # use default "mean" reduction
+        self.loss = -np.sum(y * np.log(y_) + (1 - y) * np.log(1 - y_)) / self.total_size
+        return self.loss 
+    
+    def backward(self):
+        """
+        Return:
+            out (np.array): (batch size, )
+        """
+        return -(self.y / self.y_ - (1 - self.y) / (1 - self.y_)) / self.total_size
     
