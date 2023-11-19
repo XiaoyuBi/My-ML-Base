@@ -81,4 +81,3 @@ class BCELoss(Criterion):
             out (np.array): (batch size, )
         """
         return -(self.y / self.y_ - (1 - self.y) / (1 - self.y_)) / self.total_size
-    
