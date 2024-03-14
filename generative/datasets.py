@@ -15,12 +15,12 @@ class MyMNIST(MNIST):
         # Normalize it with the usual MNIST mean and std
         # self.data = self.data.sub_(0.1307).div_(0.3081)
 
+        # labels 0-9, not used in this project
+        self.labels = self.targets
+
         # Since I'm working with autoencoders, 'targets' becomes a copy of the data. 
         # The labels are now stored in the variable 'labels'. 
         self.targets = copy.deepcopy(self.data)
-
-        # labels 0-9, not used in this project
-        self.labels = self.targets
 
     def __getitem__(self, index):
         """
@@ -39,7 +39,7 @@ class NoisyMNIST(MyMNIST):
     Data Augmented MNIST dataset with random noises
     """
 
-    def __init__(self, *args, sigma = 0.1, **kwargs):
+    def __init__(self, *args, sigma = 0.2, **kwargs):
         super().__init__(*args, **kwargs)
         
         self.data += sigma * torch.randn(self.data.shape)

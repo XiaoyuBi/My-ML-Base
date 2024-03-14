@@ -65,6 +65,7 @@ class Autoencoder(BaseGenerativeModel):
         else:
             raise ValueError(f"Loss Type {loss_type} not supported!")
     
+    # NOTE: This is not a good sampling strategy for Autoencoder!
     def sample(self, 
             num_samples: int, device
         ) -> Tensor:
