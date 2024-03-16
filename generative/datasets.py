@@ -10,8 +10,9 @@ class MyMNIST(MNIST):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Scale data to [0,1]
+        # Scale data to [0,1] and add channel dimension
         self.data = self.data.float().div(255)
+        self.data = self.data.unsqueeze(1)
         # Normalize it with the usual MNIST mean and std
         # self.data = self.data.sub_(0.1307).div_(0.3081)
 

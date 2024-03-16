@@ -45,12 +45,9 @@ class Autoencoder(BaseGenerativeModel):
         )
     
     def forward(self, x: Tensor) -> Tensor:
-        # [B, H, W] -> [B, C, H, W]
-        x = x.unsqueeze(1)
-
+        #[B, C, H, W]
         z = self.encoder(x) # [B, latent_dim]
         x_ = self.decoder(z) # [B, C, H, W]
-        x_ = x_.squeeze(1) # [B, H, W]
 
         return x_
     
